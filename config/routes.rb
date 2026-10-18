@@ -7,6 +7,20 @@ Rails.application.routes.draw do
   match "/api/v1/messages/message" => "legacy_api/messages#message", via: [:get, :post, :patch, :put]
   match "/api/v1/messages/deliveries" => "legacy_api/messages#deliveries", via: [:get, :post, :patch, :put]
 
+  # REST API
+  namespace :api do
+    namespace :v1 do
+      resources :domains, param: :uuid, only: [:index, :show, :create, :destroy] do
+        member do
+          post :verify
+          post :check
+          post :regenerate_dkim
+          post :cancel_dkim_regeneration
+        end
+      end
+    end
+  end
+
   scope "org/:org_permalink", as: "organization" do
     resources :domains, only: [:index, :new, :create, :destroy] do
       match :verify, on: :member, via: [:get, :post]
