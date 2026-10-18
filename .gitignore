@@ -37,3 +37,6 @@ BRANCH
 node_modules
 yarn.lock
 
+
+.commandcode/*
+.commandcode/.gitignore
